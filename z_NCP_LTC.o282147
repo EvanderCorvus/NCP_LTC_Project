@@ -1,0 +1,93 @@
+Ignoring PCI device with non-16bit domain.
+Pass --enable-32bits-pci-domain to configure to support such devices
+(warning: it would break the library ABI, don't enable unless really needed).
+No protocol specified
+No protocol specified
+Ignoring PCI device with non-16bit domain.
+Pass --enable-32bits-pci-domain to configure to support such devices
+(warning: it would break the library ABI, don't enable unless really needed).
+No protocol specified
+
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/configuration_validator.py:74: You defined a `validation_step` but have no `val_dataloader`. Skipping val loop.
+You are using a CUDA device ('NVIDIA GeForce RTX 3080') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name  | Type          | Params
+----------------------------------------
+0 | model | DeepQ_LTC_NCP | 1.6 K 
+----------------------------------------
+1.3 K     Trainable params
+304       Non-trainable params
+1.6 K     Total params
+0.006     Total estimated model params size (MB)
+/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:441: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=19` in the `DataLoader` to improve performance.
+device:  cuda
+alloc!
+Training: |          | 0/? [00:00<?, ?it/s]Training:   0%|          | 0/500 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/500 [00:00<?, ?it/s] Traceback (most recent call last):
+  File "/home/weinmann/NCP_LTC_NNs/main.py", line 25, in <module>
+    trainer.fit(learner, dataloader)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 544, in fit
+    call._call_and_handle_interrupt(
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 44, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 580, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 989, in _run
+    results = self._run_stage()
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/trainer.py", line 1035, in _run_stage
+    self.fit_loop.run()
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 202, in run
+    self.advance()
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py", line 359, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 136, in run
+    self.advance(data_fetcher)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/training_epoch_loop.py", line 240, in advance
+    batch_output = self.automatic_optimization.run(trainer.optimizers[0], batch_idx, kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 187, in run
+    self._optimizer_step(batch_idx, closure)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 265, in _optimizer_step
+    call._call_lightning_module_hook(
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 157, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/core/module.py", line 1291, in optimizer_step
+    optimizer.step(closure=optimizer_closure)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/core/optimizer.py", line 151, in step
+    step_output = self._strategy.optimizer_step(self._optimizer, closure, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/strategies/strategy.py", line 230, in optimizer_step
+    return self.precision_plugin.optimizer_step(optimizer, model=model, closure=closure, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/plugins/precision/precision.py", line 117, in optimizer_step
+    return optimizer.step(closure=closure, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/torch/optim/optimizer.py", line 280, in wrapper
+    out = func(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/torch/optim/optimizer.py", line 33, in _use_grad
+    ret = func(self, *args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/torch/optim/adam.py", line 121, in step
+    loss = closure()
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/plugins/precision/precision.py", line 104, in _wrap_closure
+    closure_result = closure()
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 140, in __call__
+    self._result = self.closure(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 126, in closure
+    step_output = self._step_fn()
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/loops/optimization/automatic.py", line 315, in _training_step
+    training_step_output = call._call_strategy_hook(trainer, "training_step", *kwargs.values())
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/trainer/call.py", line 309, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/pytorch_lightning/strategies/strategy.py", line 382, in training_step
+    return self.lightning_module.training_step(*args, **kwargs)
+  File "/home/weinmann/NCP_LTC_NNs/network_utils.py", line 15, in training_step
+    y_hat, _ = self.model.forward(x)
+  File "/home/weinmann/NCP_LTC_NNs/networks.py", line 25, in forward
+    x = self.fc(state)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/torch/nn/modules/module.py", line 1501, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/weinmann/.local/lib/python3.9/site-packages/torch/nn/modules/linear.py", line 114, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (1x3 and 1x1)
