@@ -23,6 +23,11 @@ trainer = pl.Trainer(devices=1,
                 )
 
 trainer.fit(learner, dataloader)
+
+trainer.test(learner, dataloader)
+
+
+
 sns.set()
 plt.plot(learner.losses)
 plt.xlabel('Training Step')
