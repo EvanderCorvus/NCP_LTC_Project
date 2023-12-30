@@ -1,6 +1,5 @@
 import configparser
 import numpy as np
-from deap import base, creator, tools
 import torch as tr
 import torch.utils.data as data
 

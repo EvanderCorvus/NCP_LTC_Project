@@ -7,36 +7,30 @@ import seaborn as sns
 import pytorch_lightning as pl
 
 device = tr.device('cuda' if tr.cuda.is_available() else 'cpu')
+hyperparams = Hyperparameters()
 print('device: ', device)
 
-in_features = 3
-out_features = 1
-hidden_dim = 128
-LTC = DeepQ_LTC_NCP(in_features, hidden_dim, out_features)
+LTC = DeepQ_LTC_NCP(hyperparams.in_features, hyperparams.hidden_dim, hyperparams.out_features)
+learner = SequenceLearner(LTC, hyperparams)
 
-learner = SequenceLearner(LTC, lr=0.005)
-# DataLoaders = [create_dataloader(100) for _ in range(10)]
-
-train_dataloader = create_dataloader(1000)
+train_dataloader = create_dataloader(hyperparams.n_train_samples)
 csv_logger = pl.loggers.CSVLogger('logs', name='LTC')
+callback = EarlyStopping(hyperparams.target_mape)
 
 trainer = pl.Trainer(devices=1,
                     accelerator= pl.accelerators.CUDAAccelerator(),
-                    max_epochs=100,
-                    gradient_clip_val=1,                     
+                    max_epochs=hyperparams.max_epochs,
+                    gradient_clip_val=hyperparams.gradient_clip_val,                 
                     logger = csv_logger,
-                    enable_progress_bar=False
+                    enable_progress_bar=False,
+                    callbacks = [callback]
                 )
 
-print('training')
-# for train_dataloader in DataLoaders:    
 trainer.fit(learner, train_dataloader)
 
 
-print('testing')
-test_dataloader = create_dataloader(250)
+test_dataloader = create_dataloader(hyperparams.n_test_samples)
 trainer.test(learner, test_dataloader)
-print('finished')
 
 
 # Plotting
