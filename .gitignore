@@ -1,0 +1,5 @@
+__pycache__/
+__outputs__/
+lightning_logs/
+logs/LTC/*
+!logs/LTC/*.csv

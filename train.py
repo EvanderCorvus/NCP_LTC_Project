@@ -6,18 +6,18 @@ from networks import DeepQ_LTC_NCP
 import seaborn as sns
 import pytorch_lightning as pl
 
+
 device = tr.device('cuda' if tr.cuda.is_available() else 'cpu')
-print('device: ', device)
+checkpoint_path = '/home/weinmann/NCP_LTC_NNs/logs/LTC/version_5/checkpoints/epoch=99-step=50000.ckpt'
 
 in_features = 3
 out_features = 1
-hidden_dim = 128
+hidden_dim = 256
 LTC = DeepQ_LTC_NCP(in_features, hidden_dim, out_features)
+LTC.load_state_dict(tr.load(checkpoint_path)['state_dict'])
 
-learner = SequenceLearner(LTC, lr=0.005)
-# DataLoaders = [create_dataloader(100) for _ in range(10)]
-
-train_dataloader = create_dataloader(1000)
+learner = SequenceLearner(LTC)
+test_dataloader = create_dataloader(10)
 csv_logger = pl.loggers.CSVLogger('logs', name='LTC')
 
 trainer = pl.Trainer(devices=1,
@@ -28,21 +28,6 @@ trainer = pl.Trainer(devices=1,
                     enable_progress_bar=False
                 )
 
-print('training')
-# for train_dataloader in DataLoaders:    
-trainer.fit(learner, train_dataloader)
 
-
-print('testing')
-test_dataloader = create_dataloader(250)
 trainer.test(learner, test_dataloader)
 print('finished')
-
-
-# Plotting
-sns.set()
-plt.plot(learner.losses)
-plt.xlabel('Step')
-plt.ylabel('Loss')
-plt.title('Train Loss Over Time')
-plt.savefig('losses.png')

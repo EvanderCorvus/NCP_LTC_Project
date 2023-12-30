@@ -35,7 +35,7 @@ class time:
 # Create Dataloader for $y: [-1,1]^{2}\rightarrow \mathbb{R}\quad y(x,t) = [\sin(\omega t + k\sqrt{x[1]^2}, 0]$
         
 def create_dataloader(n_samples, omega = 1, k=1, T = 10):
-    t = np.array([np.linspace(0,T,n_samples)]).T
+    t = np.array([np.random.uniform(0,T,n_samples)]).T
     x = np.random.rand(n_samples, 2)
     
     x = np.append(x, t, axis = 1)
