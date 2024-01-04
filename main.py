@@ -15,7 +15,7 @@ learner = SequenceLearner(LTC, hyperparams)
 
 train_dataloader = create_dataloader(hyperparams.n_train_samples)
 csv_logger = pl.loggers.CSVLogger('logs', name='LTC')
-callback = EarlyStopping(hyperparams.target_mape)
+callback = mod_Early_Stopping(hyperparams.target_mape)
 
 trainer = pl.Trainer(devices=1,
                     accelerator= pl.accelerators.CUDAAccelerator(),

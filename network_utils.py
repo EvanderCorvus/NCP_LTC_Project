@@ -4,6 +4,7 @@ import torch.nn as nn
 import pytorch_lightning as pl
 from torchmetrics import MeanSquaredError
 from pytorch_lightning import Callback
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 
 
 class SequenceLearner(pl.LightningModule):
@@ -63,7 +64,7 @@ class SequenceLearner(pl.LightningModule):
         return {'optimizer': optimizer, 'lr_scheduler': scheduler_config}
  
 
-class EarlyStopping(Callback):
+class custom_Early_Stopping(Callback):
     def __init__(self, target_mape):
         super().__init__()
         self.target_mape = target_mape
@@ -82,3 +83,16 @@ class EarlyStopping(Callback):
         if val_mape < self.target_mape:
             print(f"Stopping training as validation MAPE has reached {val_mape}")
             trainer.should_stop = True
+
+class mod_Early_Stopping(EarlyStopping):
+    def __init__(self, target_mape):
+        super().__init__(monitor='val_mape', mode='min', patience=10, verbose=True)
+        self.target_mape = target_mape
+
+    def on_train_start(self, trainer, pl_module):
+        print("Training is starting")
+
+    def on_train_end(self, trainer, pl_module):
+        print("Training is ending")
+
+    
